@@ -13,23 +13,22 @@ import edu.mum.domain.UserCredentials;
 import edu.mum.service.CredentialsService;
 
 @Service
-@Transactional 
+@Transactional
 public class CredentialsServiceImpl implements CredentialsService {
-	
- 	@Autowired
+
+	@Autowired
 	private CredentialsDao credentialsDao;
 
-   	public void save(UserCredentials credentials) {
+	public void save(UserCredentials credentials) {
 
-  		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();   		
-  		String encodedPassword = passwordEncoder.encode(credentials.getPassword());
-  		credentials.setPassword(encodedPassword);
-  		
-  		credentialsDao.save(credentials);
+		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		String encodedPassword = passwordEncoder.encode(credentials.getPassword());
+		credentials.setPassword(encodedPassword);
+
+		credentialsDao.save(credentials);
 	}
+
 	public List<UserCredentials> findAll() {
-		return (List<UserCredentials>)credentialsDao.findAll();
+		return (List<UserCredentials>) credentialsDao.findAll();
 	}
-
- 
 }

@@ -2,15 +2,17 @@ package edu.mum.domain;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 public class Order implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Long id = null;
 	private int version = 0;
 
@@ -24,10 +26,10 @@ public class Order implements Serializable {
 	@JoinColumn(name = "member_id")
 	private Member member; // / customer info
 
-	private int orderType; //store pickup or online order
-	
+	private int orderType; // store pickup or online order
+
 	private int orderStatus;
-	
+
 	public Member getMember() {
 		return member;
 	}

@@ -1,137 +1,192 @@
 package edu.mum.domain;
 
-import javax.persistence.*;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
- @Entity
-@Table(
-   name = "CATEGORY")
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+import javax.persistence.Version;
+
+@Entity
+@Table(name = "CATEGORY")
 public class Category implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-    @Column(name = "CATEGORY_ID")
-    private Long id = null;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "CATEGORY_ID")
+	private Long id = null;
 
-    @Version
-    @Column(name = "OBJ_VERSION")
-    private int version = 0;
+	@Version
+	@Column(name = "OBJ_VERSION")
+	private int version = 0;
 
-    @Column(name = "CATEGORY_NAME", length = 255, nullable = false)
-    private String name;
+	@Column(name = "CATEGORY_NAME", length = 255, nullable = false)
+	private String name;
 
-    @ManyToMany(mappedBy="categories",fetch=FetchType.EAGER) //, cascade= {CascadeType.PERSIST,CascadeType.MERGE })
-    private List<Item> items = new ArrayList<Item>();
+	@ManyToMany(mappedBy = "categories", fetch = FetchType.EAGER) // , cascade=
+																	// {CascadeType.PERSIST,CascadeType.MERGE
+																	// })
+	private List<Item> items = new ArrayList<Item>();
 
-    
-    @Transient
-     private List<Category> childCategories = new ArrayList<Category>(); // A bag with SQL ORDER BY
+	@Transient
+	private List<Category> childCategories = new ArrayList<Category>(); // A bag
+																		// with
+																		// SQL
+																		// ORDER
+																		// BY
 
-    @Transient
-    private Category parentCategory;
- 
-     @Transient
-    private Map<Item,Member> itemsAndMember = new HashMap<Item,Member>();
+	@Transient
+	private Category parentCategory;
 
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name="CREATED", nullable = false, updatable = false)
-    private Date created = new Date();
+	@Transient
+	private Map<Item, Member> itemsAndMember = new HashMap<Item, Member>();
 
-    /**
-     * No-arg constructor for JavaBean tools
-     */
-    public Category() {}
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "CREATED", nullable = false, updatable = false)
+	private Date created = new Date();
 
-  
-    /**
-     * Simple constructors
-     */
-    public Category(String name) {
-        this.name = name;
-    }
+	/**
+	 * No-arg constructor for JavaBean tools
+	 */
+	public Category() {
+	}
 
-    public Category(String name, Category parentCategory) {
-        this.name = name;
-        this.parentCategory = parentCategory;
-    }
+	/**
+	 * Simple constructors
+	 */
+	public Category(String name) {
+		this.name = name;
+	}
 
-    // ********************** Accessor Methods ********************** //
+	public Category(String name, Category parentCategory) {
+		this.name = name;
+		this.parentCategory = parentCategory;
+	}
 
-    public Long getId() { return id; }
-    public int getVersion() { return version; }
+	// ********************** Accessor Methods ********************** //
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+	public Long getId() {
+		return id;
+	}
 
-    public List getChildCategories() { return childCategories; }
-    public void addChildCategory(Category childCategory) {
-        if (childCategory == null) throw new IllegalArgumentException("Null child category!");
-        if (childCategory.getParentCategory() != null)
-            childCategory.getParentCategory().getChildCategories().remove(childCategory);
-        childCategory.setParentCategory(parentCategory);
-        childCategories.add(childCategory);
-    }
-    public void removeChildCategory(Category childCategory) {
-        if (childCategory == null) throw new IllegalArgumentException("Null child category!");
-        childCategory.setParentCategory(null);
-        childCategories.remove(childCategory);
-    }
+	public int getVersion() {
+		return version;
+	}
 
-    public Category getParentCategory() { return parentCategory; }
-    private void setParentCategory(Category parentCategory) { this.parentCategory = parentCategory; }
+	public String getName() {
+		return name;
+	}
 
-    // Regular many-to-many
-    public List<Item> getItems() { return items; }
-    public void addItem(Item item) {
-        if (item == null) throw new IllegalArgumentException("Null item!");
-        items.add(item);
-        item.getCategories().add(this);
-    }
-    public void removeItem(Item item) {
-        if (item == null) throw new IllegalArgumentException("Null item!");
-        items.remove(item);
-        item.getCategories().remove(this);
-    }
- 
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public Date getCreated() { return created; }
+	public List<Category> getChildCategories() {
+		return childCategories;
+	}
 
-    // ********************** Common Methods ********************** //
+	public void addChildCategory(Category childCategory) {
+		if (childCategory == null)
+			throw new IllegalArgumentException("Null child category!");
+		if (childCategory.getParentCategory() != null)
+			childCategory.getParentCategory().getChildCategories().remove(childCategory);
+		childCategory.setParentCategory(parentCategory);
+		childCategories.add(childCategory);
+	}
 
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+	public void removeChildCategory(Category childCategory) {
+		if (childCategory == null)
+			throw new IllegalArgumentException("Null child category!");
+		childCategory.setParentCategory(null);
+		childCategories.remove(childCategory);
+	}
 
-        final Category category = (Category) o;
+	public Category getParentCategory() {
+		return parentCategory;
+	}
 
-        if (!created.equals(category.created)) return false;
-        if (!name.equals(category.name)) return false;
-        return !(parentCategory != null ?
-                !parentCategory.equals(category.parentCategory) :
-                category.parentCategory != null);
+	private void setParentCategory(Category parentCategory) {
+		this.parentCategory = parentCategory;
+	}
 
-    }
+	// Regular many-to-many
+	public List<Item> getItems() {
+		return items;
+	}
 
-    public int hashCode() {
-        int result;
-        result = name.hashCode();
-        result = 29 * result + (parentCategory != null ? parentCategory.hashCode() : 0);
-        result = 29 * result + created.hashCode();
-        return result;
-    }
+	public void addItem(Item item) {
+		if (item == null)
+			throw new IllegalArgumentException("Null item!");
+		items.add(item);
+		item.getCategories().add(this);
+	}
 
-    public int compareTo(Object o) {
-        if (o instanceof Category) {
-            return this.getName().compareTo( ((Category)o).getName() );
-        }
-        return 0;
-    }
+	public void removeItem(Item item) {
+		if (item == null)
+			throw new IllegalArgumentException("Null item!");
+		items.remove(item);
+		item.getCategories().remove(this);
+	}
 
-    public String toString() {
-        return  "(" + getId() + ") Name: '" + getName();
-    }
+	public Date getCreated() {
+		return created;
+	}
 
-    // ********************** Business Methods ********************** //
+	// ********************** Common Methods ********************** //
 
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+
+		final Category category = (Category) o;
+
+		if (!created.equals(category.created))
+			return false;
+		if (!name.equals(category.name))
+			return false;
+		return !(parentCategory != null ? !parentCategory.equals(category.parentCategory)
+				: category.parentCategory != null);
+
+	}
+
+	public int hashCode() {
+		int result;
+		result = name.hashCode();
+		result = 29 * result + (parentCategory != null ? parentCategory.hashCode() : 0);
+		result = 29 * result + created.hashCode();
+		return result;
+	}
+
+	public int compareTo(Object o) {
+		if (o instanceof Category) {
+			return this.getName().compareTo(((Category) o).getName());
+		}
+		return 0;
+	}
+
+	public String toString() {
+		return "(" + getId() + ") Name: '" + getName();
+	}
+
+	// ********************** Business Methods ********************** //
 }

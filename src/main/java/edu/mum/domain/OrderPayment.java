@@ -1,34 +1,34 @@
 package edu.mum.domain;
 
 import java.io.Serializable;
-import java.util.Set;
 
 public class OrderPayment implements Serializable {
 
-	   public OrderPayment() {}
-	   public OrderPayment (Integer paymentNumber, Integer amount, String paymentType ) {
-		   this.paymentNumber = paymentNumber;
-		   this.amount = amount;
-		   this.paymentType = paymentType;
-	   }
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-	
- 	   private Long id = null;
- 	   private int version = 0;
+	public OrderPayment() {
+	}
 
- 
-	   private Integer paymentNumber;
+	public OrderPayment(Integer paymentNumber, Integer amount, String paymentType) {
+		this.paymentNumber = paymentNumber;
+		this.amount = amount;
+		this.paymentType = paymentType;
+	}
 
- 
-	   private String paymentType;
- 
-	   private Integer amount;
+	private Long id = null;
+	private int version = 0;
 
- 
-	   private Order order;
+	private Integer paymentNumber;
 
-	   
-	   
+	private String paymentType;
+
+	private Integer amount;
+
+	private Order order;
+
 	public Long getId() {
 		return id;
 	}
@@ -76,6 +76,5 @@ public class OrderPayment implements Serializable {
 	public void setOrder(Order order) {
 		this.order = order;
 	}
-	
-	
+
 }

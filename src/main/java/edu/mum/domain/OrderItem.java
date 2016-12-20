@@ -2,65 +2,69 @@ package edu.mum.domain;
 
 import java.io.Serializable;
 
- 
 public class OrderItem implements Serializable {
 
-    private Long id = null;
- 
-   private int version = 0;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
- 
-   private Integer quantity;
- 
-   private Order order;
+	private Long id = null;
 
-    private Product product;
-    
-	   public OrderItem() {}
-	   public OrderItem (Integer  quantity,  Product product ) {
-		   this.quantity = quantity;
- 		   this.product = product;
-	   }
+	private int version = 0;
 
+	private Integer quantity;
 
-public Long getId() {
-	return id;
-}
+	private Order order;
 
-public void setId(Long id) {
-	this.id = id;
-}
+	private Product product;
 
-public int getVersion() {
-	return version;
-}
+	public OrderItem() {
+	}
 
-public void setVersion(int version) {
-	this.version = version;
-}
+	public OrderItem(Integer quantity, Product product) {
+		this.quantity = quantity;
+		this.product = product;
+	}
 
-public int getQuantity() {
-	return quantity;
-}
+	public Long getId() {
+		return id;
+	}
 
-public void setQuantity(int quantity) {
-	this.quantity = quantity;
-}
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-public Order getOrder() {
-	return order;
-}
+	public int getVersion() {
+		return version;
+	}
 
-public void setOrder(Order order) {
-	this.order = order;
-}
+	public void setVersion(int version) {
+		this.version = version;
+	}
 
-public Product getProduct() {
-	return product;
-}
+	public int getQuantity() {
+		return quantity;
+	}
 
-public void setProduct(Product product) {
-	this.product = product;
-}
-   
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	public Order getOrder() {
+		return order;
+	}
+
+	public void setOrder(Order order) {
+		this.order = order;
+	}
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
+
 }

@@ -12,63 +12,57 @@ import edu.mum.domain.Member;
 import edu.mum.service.CredentialsService;
 
 @Service
-@Transactional 
+@Transactional
 public class MemberServiceImpl implements edu.mum.service.MemberService {
-	
- 	@Autowired
+
+	@Autowired
 	private MemberDao memberDao;
 
- 	@Autowired
- 	CredentialsService credentialsService;
+	@Autowired
+	CredentialsService credentialsService;
 
-   	public void saveFull( Member member) {  		
-  		credentialsService.save(member.getUserCredentials());
-  		memberDao.save(member);
-  	}
-
- 	
- 	public void save( Member member) {  		
+	public void saveFull(Member member) {
+		credentialsService.save(member.getUserCredentials());
 		memberDao.save(member);
 	}
-    
-	
-    public void update( Member member) {  		
+
+	public void save(Member member) {
+		memberDao.save(member);
+	}
+
+	public void update(Member member) {
 		memberDao.update(member);
 	}
-	
-    @PreAuthorize("hasRole('ROLE_USER')")
- //   @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') ")
+
+	@PreAuthorize("hasRole('ROLE_USER')")
+	// @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') ")
 	public List<Member> findAll() {
-		return (List<Member>)memberDao.findAll();
+		return (List<Member>) memberDao.findAll();
 	}
 
 	public Member findByMemberNumber(Integer memberId) {
 		return memberDao.findByMemberNumber(memberId);
 	}
- 
+
 	public Member findOne(Long id) {
 		return memberDao.findOne(id);
 	}
-	
+
 	public Member findOneFull(Long id) {
 		Member member = this.findOne(id);
-		
-// OR 		"SELECT p FROM Member m JOIN FETCH m.userCredentials WHERE m.id = (:id)"
+
+		// OR "SELECT p FROM Member m JOIN FETCH m.userCredentials WHERE m.id =
+		// (:id)"
 		member.getUserCredentials();
-		
-		return  member;
+		return member;
 	}
-	
+
 	public List<Member> findAllJoinFetch() {
 		return memberDao.findAllJoinFetch();
 	}
-	
- 	@Override
+
+	@Override
 	public List<Member> findByGraph() {
-		return  memberDao.findByGraph();
+		return memberDao.findByGraph();
 	}
- 	
-
- 	
-
 }
