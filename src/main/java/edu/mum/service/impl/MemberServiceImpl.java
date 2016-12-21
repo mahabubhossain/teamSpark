@@ -18,7 +18,7 @@ public class MemberServiceImpl implements edu.mum.service.MemberService {
 	private MemberDao memberDao;
 
 	@Autowired
-	UserCredentialsService credentialsService;
+	private UserCredentialsService credentialsService;
 
 	public void save(Member member) {
 		memberDao.save(member);

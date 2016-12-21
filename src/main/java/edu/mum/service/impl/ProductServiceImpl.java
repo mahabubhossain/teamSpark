@@ -40,5 +40,4 @@ public class ProductServiceImpl implements ProductService {
 	public List<Product> getProductsByDescOrder() {
 		return productDao.getProductsByDescOrder();
 	}
-
 }

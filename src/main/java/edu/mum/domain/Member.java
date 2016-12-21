@@ -26,10 +26,10 @@ public class Member {
 	@Column(nullable = true)
 	private String dob;
 
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private String email;
 
-	@Column(nullable = false)
+	@Column(nullable = true)
 	private Date created;
 
 	@Column(length = 16)

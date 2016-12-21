@@ -22,9 +22,7 @@ import edu.mum.service.MemberService;
  */
 public class Main {
 	public static void main(String[] args) {
-
 		ApplicationContext ctx = new ClassPathXmlApplicationContext("context/applicationContext.xml");
-
 		AuthenticationManager authenticationManager = (AuthenticationManager) ctx.getBean("authenticationManager");
 
 		MemberService memberService = (MemberService) ctx.getBean("memberServiceImpl");
@@ -37,14 +35,12 @@ public class Main {
 		userCredentials.setUsername("Sean");
 		userCredentials.setPassword("Sean");
 		userCredentials.setEnabled(true);
-
 		userCredentials.getAuthority().add(authority);
 
 		Member member = new Member();
 		member.setFirstName("Sean");
 		member.setLastName("Smith");
 		member.setMemberNumber(1);
-
 		member.setUserCredentials(userCredentials);
 
 		Address address = new Address();
@@ -148,14 +144,11 @@ public class Main {
 						System.out.println("Address : " + addresse.getCity() + "   " + addresse.getState());
 					}
 				}
-
 			} catch (AccessDeniedException e) {
 				System.out.println();
 				System.out.println("****** ACCESS DENIED ! You Need ROLE_USER to access Member findAll()  **********");
 				System.out.println();
-
 			}
-
 		}
 	}
 }

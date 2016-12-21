@@ -3,7 +3,8 @@ package edu.mum.security;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -11,8 +12,9 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 public class AuthenticateUser {
-	@Autowired
-	private AuthenticationManager authenticationManager;
+	private static ApplicationContext ctx = new ClassPathXmlApplicationContext("context/applicationContext.xml");
+	private static AuthenticationManager authenticationManager = (AuthenticationManager) ctx
+			.getBean("authenticationManager");
 
 	public Boolean authenticate(String userName, String pass) {
 		try {
