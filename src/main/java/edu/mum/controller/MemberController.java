@@ -23,20 +23,16 @@ public class MemberController {
 	@RequestMapping
 	public @ResponseBody List<Member> findAll() {
 		return memberService.findAll();
-
 	}
 
 	@RequestMapping("/{id}")
 	public Member getMemberById(@PathVariable("id") Long id) {
 		return memberService.findOne(id);
-
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public Member processAddNewMemberForm(@RequestBody Member memberToBeAdded) {
 		memberService.save(memberToBeAdded);
 		return null;
-
 	}
-
 }

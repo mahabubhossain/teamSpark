@@ -17,9 +17,12 @@ public class UserCredentialsController {
 
 	@RequestMapping("/{id}")
 	public UserCredentials findOne(@PathVariable("id") String userName) {
-
 		UserCredentials validCredentials = credentialsService.findByUserName(userName);
-
 		return validCredentials;
+	}
+
+	@RequestMapping("/{auth}")
+	public Boolean authenticate(@PathVariable("id") String userName, @PathVariable("pass") String pass) {
+		return credentialsService.authenticate(userName, pass);
 	}
 }

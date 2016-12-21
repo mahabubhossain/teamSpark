@@ -28,15 +28,12 @@ public class ProductController {
 
 	@RequestMapping("/{id}")
 	public Product getProductById(@PathVariable("id") Long productId) {
-
 		return productService.get(productId);
 	}
 
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public Product processAddNewProductForm(@RequestBody Product productToBeAdded) {
-
 		productService.addProduct(productToBeAdded);
-
 		return null;
 	}
 }

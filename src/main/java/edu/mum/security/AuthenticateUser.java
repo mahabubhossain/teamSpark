@@ -3,6 +3,7 @@ package edu.mum.security;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -10,6 +11,26 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 public class AuthenticateUser {
+	@Autowired
+	private AuthenticationManager authenticationManager;
+
+	public Boolean authenticate(String userName, String pass) {
+		try {
+			Authentication request = new UsernamePasswordAuthenticationToken(userName, pass);
+			Authentication result = authenticationManager.authenticate(request);
+			SecurityContextHolder.getContext().setAuthentication(result);
+		} catch (AuthenticationException e) {
+			System.out.println();
+			System.out.println("Authentication failed: " + e.getMessage());
+			return false;
+		}
+
+		System.out.println();
+		System.out.println("Successfully authenticated. Security context contains: "
+				+ SecurityContextHolder.getContext().getAuthentication());
+
+		return true;
+	}
 
 	public void authenticate(AuthenticationManager authenticationManager) throws Exception {
 

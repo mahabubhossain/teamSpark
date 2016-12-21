@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import edu.mum.dao.UserCredentialsDao;
 import edu.mum.domain.UserCredentials;
+import edu.mum.security.AuthenticateUser;
 
 @Service
 @Transactional
@@ -15,6 +16,9 @@ public class UserCredentialsServiceImpl implements edu.mum.service.UserCredentia
 
 	@Autowired
 	private UserCredentialsDao userCredentialsDao;
+
+	@Autowired
+	private AuthenticateUser authUser;
 
 	public void save(UserCredentials userCredentials) {
 		userCredentialsDao.save(userCredentials);
@@ -34,5 +38,9 @@ public class UserCredentialsServiceImpl implements edu.mum.service.UserCredentia
 
 	public UserCredentials findByUserName(String userName) {
 		return userCredentialsDao.findByUserName(userName);
+	}
+
+	public Boolean authenticate(String userName, String pass) {
+		return authUser.authenticate(userName, pass);
 	}
 }
