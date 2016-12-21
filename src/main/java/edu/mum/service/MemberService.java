@@ -8,9 +8,9 @@ public interface MemberService {
 
 	public void save(Member member);
 
-	public void saveFull(Member member);
-
 	public void update(Member member);
+
+	public void saveFull(Member member);
 
 	public List<Member> findAll();
 
